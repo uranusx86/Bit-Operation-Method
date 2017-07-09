@@ -4,6 +4,6 @@
 
 int main()
 {
-    //printf("%x\n", get_rightmost_0_pos(0x10100111));
+    printf("%d\n", absolute(43));
     return 0;
 }

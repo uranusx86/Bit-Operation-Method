@@ -4,6 +4,6 @@
 
 int main()
 {
-    printf("%d\n", absolute(43));
+    printf("%x\n", n_bit1_get_next_large(0x107));
     return 0;
 }

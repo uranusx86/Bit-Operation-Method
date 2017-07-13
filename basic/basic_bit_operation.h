@@ -77,6 +77,16 @@ int is_exp_of_2_subtract_exp_of_2(int input1, int input2){
         return (clear_rightmost_continuous_1(input) == 0);
 }
 
+// using n number bit 1, get next large number
+// 0000_1111_0000 => 0001_0000_0111
+int n_bit1_get_next_large(int input){
+    if(input == 0)  return 0;
+    int smallest_1 = input & (-input);
+    int ripple = input + smallest_1;
+    int y = ((ripple ^ input)>>2) / smallest_1;
+    return (ripple | y);
+}
+
 // -43 => 43
 int absolute(int input){
     int y = input >> 31;

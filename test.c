@@ -4,6 +4,6 @@
 
 int main()
 {
-    printf("%x\n", n_bit1_get_next_large(0x107));
+    printf("%x\n", arithmetic_right_shift(0xFFFFFFF8, 2));
     return 0;
 }

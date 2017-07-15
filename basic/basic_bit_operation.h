@@ -87,6 +87,12 @@ int n_bit1_get_next_large(int input){
     return (ripple | y);
 }
 
+// 1111_1111_1000 ==right shift 2==> 1111_1111_1110
+int arithmetic_right_shift(int input, unsigned char shift){
+    if(shift > 31)  exit(EXIT_FAILURE);
+    return (((input + 0x80000000) >>shift) - (0x80000000 >>shift));
+}
+
 // -43 => 43
 int absolute(int input){
     int y = input >> 31;

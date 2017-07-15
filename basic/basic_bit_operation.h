@@ -3,6 +3,20 @@
 
 /***** All example show in binary format *****/
 
+// 0111_1000 ==pos 2==> 0111_1100
+// position index start from zero
+int set_bit(int input, unsigned char pos){
+    if(pos > 31)  exit(EXIT_FAILURE);
+    return (input |  (0x1<< pos) );
+}
+
+// 0111_1000 ==pos 4==> 0110_1000
+// position index start from zero
+int clear_bit(int input, unsigned char pos){
+    if(pos > 31)  exit(EXIT_FAILURE);
+    return (input & ( ~(0x1<< pos) ));
+}
+
 // 0101_1000 => 0101_0000
 int clear_rightmost_bit_1(int input){
     return ( input & (input - 1) );
@@ -88,15 +102,75 @@ int n_bit1_get_next_large(int input){
 }
 
 // 1111_1111_1000 ==right shift 2==> 1111_1111_1110
+// in C, if variable is unsigned, right shift is logic version
+// if variable is signed, right shift is arithmetic version
+// so you dont have to use this function
 int arithmetic_right_shift(int input, unsigned char shift){
     if(shift > 31)  exit(EXIT_FAILURE);
     return (((input + 0x80000000) >>shift) - (0x80000000 >>shift));
+}
+
+// x<0, return -1
+// x=0, return 0
+// x>0, return 1
+int sign_function(int input){
+    return ( (input >>31) | (((unsigned int)(-input)) >>31)   );
 }
 
 // -43 => 43
 int absolute(int input){
     int y = input >> 31;
     return ( input - ((input<<1) & y) );
+}
+
+// 1111_0000 ==left shift 1==> 1110_0001
+int circular_left_shift(int input, unsigned char shift){
+    if(shift > 31) exit(EXIT_FAILURE);
+    return ( (input<< shift) | ((unsigned int)input >>(32-shift)) );
+}
+
+// 0000_1111 ==right shift 1==> 1000_0111
+int circular_right_shift(int input, unsigned char shift){
+    if(shift > 31) exit(EXIT_FAILURE);
+    return ( ((unsigned int)input >>shift) | (input<< (32-shift)) );
+}
+
+// test x!=y
+int x_neq_y(int input1, int input2){
+    return ((unsigned int)((input1-input2) | (input2-input1)) >>31);
+}
+
+// test x==y
+int x_eq_y(int input1, int input2){
+    return !x_neq_y(input1, input2);
+}
+
+// test x<y
+int x_smaller_y(int input1, int input2){
+    //return (unsigned int)((input1 & ~input2) | ((~(input1 ^ input2)) & (input1-input2))) >>31;
+    return (unsigned int)((input1 >>1) - (input2 >>1) - (~input1 & input2 & 0x1)) >>31;
+}
+
+// test x<=y
+int x_smaller_eq_y(int input1, int input2){
+    return (unsigned int)((input1 | ~input2) & ((input1^input2) | (~(input2-input1)))) >>31;
+}
+
+// if x>=y, return x-y
+// else return 0
+int doz(int input1, int input2){
+    int d = input1 - input2;
+    return (d & ((~(d ^ ( (input1^input2) & (d^input1) ))) >>31));
+}
+
+// return max
+int max__(int input1, int input2){
+    return input2 + doz(input1, input2);
+}
+
+// return min
+int min__(int input1, int input2){
+    return input1 - doz(input1, input2);
 }
 
 #endif // BASIC_BIT_OPERATION_H_INCLUDED

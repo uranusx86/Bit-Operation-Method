@@ -4,6 +4,6 @@
 
 int main()
 {
-    printf("%d\n", x_smaller_y(140,140));
+    printf("%x\n", swap_inside_section(0xA6, 5, 0x7));
     return 0;
 }

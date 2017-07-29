@@ -156,6 +156,46 @@ int x_smaller_eq_y(int input1, int input2){
     return (unsigned int)((input1 | ~input2) & ((input1^input2) | (~(input2-input1)))) >>31;
 }
 
+// test x>y
+int x_bigger_y(int input1, int input2){
+    return !x_smaller_eq_y(input1, input2);
+}
+
+// test x>=y
+int x_bigger_eq_y(int input1, int input2){
+    return !x_smaller_y(input1, input2);
+}
+
+// test x!=0
+int x_neq0(int input1){
+    return ((unsigned int)(input1 | -input1) >>31);
+}
+
+// test x==0
+int x_eq0(int input1){
+    return !x_neq0(input1);
+}
+
+// test x<0
+int x_smaller0(int input1){
+    return ((unsigned int)input1 >>31);
+}
+
+// test x<=0
+int x_smaller_eq0(int input1){
+    return ((unsigned int)(input1 | (input1-1)) >>31);
+}
+
+// test x>0
+int x_bigger0(int input1){
+    return !x_smaller_eq0(input1);
+}
+
+// test x>=0
+int x_bigger_eq0(int input1){
+    return !x_smaller0(input1);
+}
+
 // if x>=y, return x-y
 // else return 0
 int doz(int input1, int input2){
@@ -171,6 +211,35 @@ int max__(int input1, int input2){
 // return min
 int min__(int input1, int input2){
     return input1 - doz(input1, input2);
+}
+
+// swap two value, cant use pointer type if two value point to same address
+#define swap_v1(input1, input2) {input1=input1^input2; input2=input2^input1; input1=input1^input2;}
+#define swap_v2(input1, input2) {input1=input1+input2; input2=input1-input2; input1=input1-input2;}
+
+// if mask[i]=1, swap position i bit
+// mask can have mutiple, discontinuous 1
+// 1010, 0001 == mask=3 ===> 1001, 0010
+void swap_bit_section_v1(int *input1, int *input2, int mask) {
+    int temp = (*input1&(~mask)) | (*input2&mask);
+    *input2 = (*input2&(~mask)) | (*input1&mask);
+    *input1 = temp;
+}
+// cant use pointer type if two value point to same address
+void swap_bit_section_v2(int *input1, int *input2, int mask) {
+    *input1 = *input1 ^ *input2;
+    *input2 = *input2 ^ (*input1 & mask);
+    *input1 = *input1 ^ *input2;
+}
+
+// swap bit section inside integer
+// dst_pos: swap destination, set to bit 1, can use mutiple 1
+// move_dist: distance between source head and destination head
+// 010100110   === move_dist=5, dst_pos=000000111 ===>  011000101
+int swap_inside_section(int input1, unsigned char move_dist, int dst_pos) {
+    if(move_dist>31) exit(EXIT_FAILURE);
+    int temp = (input1 ^ ((unsigned int)input1 >>move_dist)) & dst_pos;
+    return (input1  ^  temp  ^  (temp<< move_dist));
 }
 
 #endif // BASIC_BIT_OPERATION_H_INCLUDED

@@ -1,5 +1,9 @@
 #ifndef BASIC_BIT_OPERATION_H_INCLUDED
 #define BASIC_BIT_OPERATION_H_INCLUDED
+typedef enum {
+    true = (1 == 1),
+    false = (1 == 0)
+} bool;
 
 /***** All example show in binary format *****/
 
@@ -27,13 +31,6 @@ int set_rightmost_bit_0(int input){
     return ( input | (input + 1) );
 }
 
-// test is 2^n
-// 0000_1000 => true
-// only work for unsigned int
-int is_exp_of_2(unsigned int input){
-    return (clear_rightmost_bit_1(input) == 0);
-}
-
 // 0101_1000 => 3
 int cnt_bit_1(int input){
     short cnt = 0;
@@ -42,13 +39,6 @@ int cnt_bit_1(int input){
         input = clear_rightmost_bit_1(input);
     }
     return cnt;
-}
-
-// test 2^n - 1
-// 0000_003F => true
-// only work for unsigned int
-int is_exp_of_2_minus_1(unsigned int input){
-    return ((input & (input+1)) == 0);
 }
 
 // 0101_1000 => 0000_1000
@@ -79,16 +69,6 @@ int broadcast_rightmost_1_to_right(int input){
 // 0101_1000 => 0100_0000
 int clear_rightmost_continuous_1(int input){
     return ((  (input | (input-1)) + 1) & input);
-}
-
-// test result is 2^n - 2^m, n > m
-// only work for unsign int
-int is_exp_of_2_subtract_exp_of_2(int input1, int input2){
-    int input = input1 - input2;
-    if(input < 0)
-        exit(EXIT_FAILURE);
-    else
-        return (clear_rightmost_continuous_1(input) == 0);
 }
 
 // using n number bit 1, get next large number
@@ -241,5 +221,4 @@ int swap_inside_section(int input1, unsigned char move_dist, int dst_pos) {
     int temp = (input1 ^ ((unsigned int)input1 >>move_dist)) & dst_pos;
     return (input1  ^  temp  ^  (temp<< move_dist));
 }
-
 #endif // BASIC_BIT_OPERATION_H_INCLUDED

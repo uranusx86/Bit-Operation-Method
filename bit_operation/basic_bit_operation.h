@@ -199,7 +199,7 @@ int min__(int input1, int input2){
 
 // if mask[i]=1, swap position i bit
 // mask can have mutiple, discontinuous 1
-// 1010, 0001 == mask=3 ===> 1001, 0010
+// 10(10), 00(01) == mask=3 ===> 10(01), 00(10)
 void swap_bit_section_v1(int *input1, int *input2, int mask) {
     int temp = (*input1&(~mask)) | (*input2&mask);
     *input2 = (*input2&(~mask)) | (*input1&mask);
@@ -215,7 +215,7 @@ void swap_bit_section_v2(int *input1, int *input2, int mask) {
 // swap bit section inside integer
 // dst_pos: swap destination, set to bit 1, can use mutiple 1
 // move_dist: distance between source head and destination head
-// 010100110   === move_dist=5, dst_pos=000000111 ===>  011000101
+// 0(101)00(110)   === move_dist=5, dst_pos=000000111 ===>  0(110)00(101)
 int swap_inside_section(int input1, unsigned char move_dist, int dst_pos) {
     if(move_dist>31) exit(EXIT_FAILURE);
     int temp = (input1 ^ ((unsigned int)input1 >>move_dist)) & dst_pos;

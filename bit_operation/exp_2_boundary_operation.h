@@ -49,6 +49,20 @@ int floor_2(unsigned int input1){
     input1 |= (input1 >>16);
     return input1 - (input1 >>1);  // 111111 - 11111 = 100000
 }
+int floor_2_v1(unsigned int input1){
+    unsigned int y = 0x80000000;
+    while(y > input1)
+        y = y >>1;
+    return y;
+}
+int floor_2_v2(unsigned int input1){
+    unsigned int y = 0;
+    do{
+        y = input1;
+        input1 = clear_rightmost_bit_1(input1);
+    }while(input1 != 0);
+    return y;
+}
 
 // find nearest the number of exp of 2
 // 37 ==> 64

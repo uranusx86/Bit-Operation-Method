@@ -7,6 +7,7 @@
 
 int main()
 {
-    printf("%d\n",calc_bit1_num_v3(26));
+    unsigned int arr[] = {0x00000001, 0x0000F000, 0x000000A3};
+    printf("%d\n",calc_array_bit1_num(arr, sizeof(arr)/sizeof(unsigned int)));
     return 0;
 }

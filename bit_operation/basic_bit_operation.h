@@ -102,6 +102,10 @@ int absolute(int input){
     int y = input >> 31;
     return ( input - ((input<<1) & y) );
 }
+int absolute_v2(int input){
+    int mask = (x >> 31);
+    return (x + mask) ^ mask;
+}
 
 // 1111_0000 ==left shift 1==> 1110_0001
 int circular_left_shift(int input, unsigned char shift){

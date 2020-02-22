@@ -123,10 +123,16 @@ int circular_right_shift(int input, unsigned char shift){
 int x_neq_y(int input1, int input2){
     return ((unsigned int)((input1-input2) | (input2-input1)) >>31);
 }
+int x_neq_y_v2(int input1, int input2){
+    return input1^input2;
+}
 
 // test x==y
 int x_eq_y(int input1, int input2){
     return !x_neq_y(input1, input2);
+}
+int x_eq_y_v2(int input1, int input2){
+    return !x_neq_y_v2(input1, input2);
 }
 
 // test x<y
